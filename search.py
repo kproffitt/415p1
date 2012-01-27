@@ -65,6 +65,9 @@ def tinyMazeSearch(problem):
   from game import Directions
   s = Directions.SOUTH
   w = Directions.WEST
+  print "bob"
+  print [s,s,w,s,w,w,s,w]
+  print "bob"
   return  [s,s,w,s,w,w,s,w]
 
 def depthFirstSearch(problem):
@@ -99,24 +102,31 @@ def depthFirstSearch(problem):
     return []
   """Otherwise, do some exploring"""
   frontier.push(current)
+  exploredHash[current] = True
   frontierHash[current] = []
   """Do the search on the frontier"""
   while frontier.isEmpty() == False:
     current = frontier.pop()
+    print "Popping ",current,"off of frontier."
     if problem.isGoalState(current):
       """Return the path to the goal"""
       print "The goal is:  ",current
       print "The path is:  ",frontierHash[current]
-    """Add current to explored hashtable"""
-    exploredHash[current] = True
+      return frontierHash[current]
+    
     successors = problem.getSuccessors(current)
     for successor in successors:
       """If the node hasn't been explored, put it on the frontier"""
       if successor[0] not in exploredHash:
+	"""Add node to the frontier"""
         frontier.push(successor[0])
-	path = frontierHash[current]
+        """Add current to explored hashtable"""
+        exploredHash[successor[0]] = True
+	"""Add path to the node to the frontierHash"""
+	path = list(frontierHash[current])
 	path.append(successor[1])
 	frontierHash[successor[0]] = path
+	print "Pushing ",successor[0]," at ",path
 
   util.raiseNotDefined()
 
