@@ -181,7 +181,45 @@ def breadthFirstSearch(problem):
       
 def uniformCostSearch(problem):
   "Search the node of least total cost first. "
-  "*** YOUR CODE HERE ***"
+  """Create the frontier"""
+  frontier = util.PriorityQueue()
+  """Keep track of how you got somewhere"""
+  frontierHash = {}
+  """Keep track of explored nodes with True/False hashes"""
+  exploredHash = {}
+  """The current node being evaluated"""
+  current = problem.getStartState()
+
+  if problem.isGoalState(current):
+    """Start is the goal"""
+    return []
+  """Otherwise, do some exploring.  Add arbitrary start priority"""
+  frontier.push(current,0)
+  exploredHash[current] = True
+  frontierHash[current] = []
+  """Do the search on the frontier"""
+  while frontier.isEmpty() == False:
+    current = frontier.pop()
+    print "Popping ",current,"off of frontier."
+    if problem.isGoalState(current):
+      """Return the path to the goal"""
+      print "The goal is:  ",current
+      print "The path is:  ",frontierHash[current]
+      return frontierHash[current]
+    
+    successors = problem.getSuccessors(current)
+    for successor in successors:
+      """If the node hasn't been explored, put it on the frontier"""
+      if successor[0] not in exploredHash:
+	"""Add node to the frontier.  Use cost as priority"""
+        frontier.push(successor[0],successor[2])
+        """Add current to explored hashtable"""
+        exploredHash[successor[0]] = True
+	"""Add path to the node to the frontierHash"""
+	path = list(frontierHash[current])
+	path.append(successor[1])
+	frontierHash[successor[0]] = path
+	print "Pushing ",successor[0]," at ",path
   util.raiseNotDefined()
 
 def nullHeuristic(state, problem=None):
