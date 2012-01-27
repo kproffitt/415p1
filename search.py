@@ -99,12 +99,14 @@ def depthFirstSearch(problem):
     return []
   """Otherwise, do some exploring"""
   frontier.push(current)
+  frontierHash[current] = []
   """Do the search on the frontier"""
   while frontier.isEmpty() == False:
     current = frontier.pop()
     if problem.isGoalState(current):
       """Return the path to the goal"""
       print "The goal is:  ",current
+      print "The path is:  ",frontierHash[current]
     """Add current to explored hashtable"""
     exploredHash[current] = True
     successors = problem.getSuccessors(current)
@@ -112,6 +114,9 @@ def depthFirstSearch(problem):
       """If the node hasn't been explored, put it on the frontier"""
       if successor[0] not in exploredHash:
         frontier.push(successor[0])
+	path = frontierHash[current]
+	path.append(successor[1])
+	frontierHash[successor[0]] = path
 
   util.raiseNotDefined()
 
