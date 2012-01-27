@@ -85,13 +85,33 @@ def depthFirstSearch(problem):
   print "Start's successors:", problem.getSuccessors(problem.getStartState())
   "*** YOUR CODE HERE ***"
 
-  "Create the frontier"
-  frontier = Stack();
-  "Keep track of how you got somewhere"
-  frontierHash = {};
-  "Keep track of explored nodes with True/False hashes"
-  exploredHash = {};
-  
+  """Create the frontier"""
+  frontier = util.Stack()
+  """Keep track of how you got somewhere"""
+  frontierHash = {}
+  """Keep track of explored nodes with True/False hashes"""
+  exploredHash = {}
+  """The current node being evaluated"""
+  current = problem.getStartState()
+
+  if problem.isGoalState(current):
+    """Start is the goal"""
+    return []
+  """Otherwise, do some exploring"""
+  frontier.push(current)
+  """Do the search on the frontier"""
+  while frontier.isEmpty() == False:
+    current = frontier.pop()
+    if problem.isGoalState(current):
+      """Return the path to the goal"""
+      print "The goal is:  ",current
+    """Add current to explored hashtable"""
+    exploredHash[current] = True
+    successors = problem.getSuccessors(current)
+    for successor in successors:
+      """If the node hasn't been explored, put it on the frontier"""
+      if successor[0] not in exploredHash:
+        frontier.push(successor[0])
 
   util.raiseNotDefined()
 
