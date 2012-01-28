@@ -65,9 +65,10 @@ def tinyMazeSearch(problem):
   from game import Directions
   s = Directions.SOUTH
   w = Directions.WEST
-  print "bob"
-  print [s,s,w,s,w,w,s,w]
-  print "bob"
+  DEBUG = False
+  if DEBUG == True: print "bob"
+  if DEBUG == True: print [s,s,w,s,w,w,s,w]
+  if DEBUG == True: print "bob"
   return  [s,s,w,s,w,w,s,w]
 
 def depthFirstSearch(problem):
@@ -83,11 +84,11 @@ def depthFirstSearch(problem):
   understand the search problem that is being passed in:
   
   """
-  print "Start:", problem.getStartState()
-  print "Is the start a goal?", problem.isGoalState(problem.getStartState())
-  print "Start's successors:", problem.getSuccessors(problem.getStartState())
+  DEBUG = False;
+  if DEBUG == True: print "Start:", problem.getStartState()
+  if DEBUG == True: print "Is the start a goal?", problem.isGoalState(problem.getStartState())
+  if DEBUG == True: print "Start's successors:", problem.getSuccessors(problem.getStartState())
   "*** YOUR CODE HERE ***"
-
   """Create the frontier"""
   frontier = util.Stack()
   """Keep track of how you got somewhere"""
@@ -107,11 +108,11 @@ def depthFirstSearch(problem):
   """Do the search on the frontier"""
   while frontier.isEmpty() == False:
     current = frontier.pop()
-    print "Popping ",current,"off of frontier."
+    if DEBUG == True: print "Popping ",current,"off of frontier."
     if problem.isGoalState(current):
       """Return the path to the goal"""
-      print "The goal is:  ",current
-      print "The path is:  ",frontierHash[current]
+      if DEBUG == True: print "The goal is:  ",current
+      if DEBUG == True: print "The path is:  ",frontierHash[current]
       return frontierHash[current]
     
     successors = problem.getSuccessors(current)
@@ -126,7 +127,7 @@ def depthFirstSearch(problem):
 	path = list(frontierHash[current])
 	path.append(successor[1])
 	frontierHash[successor[0]] = path
-	print "Pushing ",successor[0]," at ",path
+	if DEBUG == True: print "Pushing ",successor[0]," at ",path
 
   util.raiseNotDefined()
 
@@ -136,6 +137,7 @@ def breadthFirstSearch(problem):
   [2nd Edition: p 73, 3rd Edition: p 82]
   """
   "*** YOUR CODE HERE ***"
+  DEBUG = False;
 
   """Create the frontier"""
   frontier = util.Queue()
@@ -156,11 +158,11 @@ def breadthFirstSearch(problem):
   """Do the search on the frontier"""
   while frontier.isEmpty() == False:
     current = frontier.pop()
-    print "Popping ",current,"off of frontier."
+    if DEBUG == True: print "Popping ",current,"off of frontier."
     if problem.isGoalState(current):
       """Return the path to the goal"""
-      print "The goal is:  ",current
-      print "The path is:  ",frontierHash[current]
+      if DEBUG == True: print "The goal is:  ",current
+      if DEBUG == True: print "The path is:  ",frontierHash[current]
       return frontierHash[current]
     
     successors = problem.getSuccessors(current)
@@ -175,12 +177,13 @@ def breadthFirstSearch(problem):
 	path = list(frontierHash[current])
 	path.append(successor[1])
 	frontierHash[successor[0]] = path
-	print "Pushing ",successor[0]," at ",path
+	if DEBUG == True: print "Pushing ",successor[0]," at ",path
 
   util.raiseNotDefined()
       
 def uniformCostSearch(problem):
   "Search the node of least total cost first. "
+  DEBUG = False;
   """Create the frontier"""
   frontier = util.PriorityQueue()
   """Keep track of how you got somewhere"""
@@ -200,11 +203,11 @@ def uniformCostSearch(problem):
   """Do the search on the frontier"""
   while frontier.isEmpty() == False:
     current = frontier.pop()
-    print "Popping ",current,"off of frontier."
+    if DEBUG == True: print "Popping ",current,"off of frontier."
     if problem.isGoalState(current):
       """Return the path to the goal"""
-      print "The goal is:  ",current
-      print "The path is:  ",frontierHash[current]
+      if DEBUG == True: print "The goal is:  ",current
+      if DEBUG == True: print "The path is:  ",frontierHash[current]
       return frontierHash[current]
     
     successors = problem.getSuccessors(current)
@@ -219,7 +222,7 @@ def uniformCostSearch(problem):
 	path = list(frontierHash[current])
 	path.append(successor[1])
 	frontierHash[successor[0]] = path
-	print "Pushing ",successor[0]," at ",path
+	if DEBUG == True: print "Pushing ",successor[0]," at ",path
   util.raiseNotDefined()
 
 def nullHeuristic(state, problem=None):
