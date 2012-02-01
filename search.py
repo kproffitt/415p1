@@ -183,6 +183,7 @@ def breadthFirstSearch(problem):
       
 def uniformCostSearch(problem):
   "Search the node of least total cost first. "
+  "*** YOUR CODE HERE ***"
   DEBUG = False;
   """Create the frontier"""
   frontier = util.PriorityQueue()
@@ -235,6 +236,58 @@ def nullHeuristic(state, problem=None):
 def aStarSearch(problem, heuristic=nullHeuristic):
   "Search the node that has the lowest combined cost and heuristic first."
   "*** YOUR CODE HERE ***"
+  """
+  This is the same as the uniformCostSearch, except we change the cost
+  going into the PriorityQueue.  Based on the video, it is calculated
+  f=g+h where g(path) = path_cost and h(path)=h(s)=estimated_dist_to_goal
+
+  We might need another hashtable or something to track the path cost like
+  what we use to track the path to a particular node, I'm not sure yet.
+  """
+  DEBUG = False;
+  """Create the frontier"""
+  frontier = util.PriorityQueue()
+  """Keep track of how you got somewhere"""
+  frontierHash = {}
+  """Keep track of explored nodes with True/False hashes"""
+  exploredHash = {}
+  """The current node being evaluated"""
+  current = problem.getStartState()
+
+  if problem.isGoalState(current):
+    """Start is the goal"""
+    return []
+  """Otherwise, do some exploring.  Add arbitrary start priority"""
+  frontier.push(current,0)
+  exploredHash[current] = True
+  frontierHash[current] = []
+  """Do the search on the frontier"""
+  while frontier.isEmpty() == False:
+    current = frontier.pop()
+    if DEBUG == True: print "Popping ",current,"off of frontier."
+    if problem.isGoalState(current):
+      """Return the path to the goal"""
+      if DEBUG == True: print "The goal is:  ",current
+      if DEBUG == True: print "The path is:  ",frontierHash[current]
+      return frontierHash[current]
+    
+    successors = problem.getSuccessors(current)
+    for successor in successors:
+      """If the node hasn't been explored, put it on the frontier"""
+      if successor[0] not in exploredHash:
+	"""Add node to the frontier.  Calculate priroity with cost function for A-Star"""
+        g=successor[2]
+        h=heuristic(successor[0],problem)
+        f = g+h
+        """Add node to the frontier"""
+        frontier.push(successor[0],f)
+        """Add current to explored hashtable"""
+        exploredHash[successor[0]] = True
+	"""Add path to the node to the frontierHash"""
+	path = list(frontierHash[current])
+	path.append(successor[1])
+	frontierHash[successor[0]] = path
+	if DEBUG == True: print "Pushing ",successor[0]," at ",path
   util.raiseNotDefined()
     
   
