@@ -277,6 +277,8 @@ def aStarSearch(problem, heuristic=nullHeuristic):
       if successor[0] not in exploredHash:
 	"""Add node to the frontier.  Calculate priroity with cost function for A-Star"""
         g=successor[2]
+	"""Explanation:  nullHeuristic is passes into aStarSearch as a parameter, relabled
+	as heuristic.  Therefore, calling heuristic is the same as calling nullHeuristic."""
         h=heuristic(successor[0],problem)
         f = g+h
         """Add node to the frontier"""
