@@ -278,15 +278,29 @@ class CornersProblem(search.SearchProblem):
     self._expanded = 0 # Number of search nodes expanded
     
     "*** YOUR CODE HERE ***"
+    self.debug=True
     
   def getStartState(self):
     "Returns the start state (in your state space, not the full Pacman state space)"
     "*** YOUR CODE HERE ***"
+    if self.debug:
+      print "Corners are: ",self.corners
+    """visitedCorners keeps track of whether or not we've visited a corner.
+    The position in visitedCorners matches the position of self.corners"""
+    visitedCorners = (False,False,False,False)
+    """Each state will consist of its position in the graph AND 
+    the tuple of visited corners"""
+    state=self.startingPosition,visitedCorners
+    if self.debug:
+      print "Start state is: ",state
+    return (state)
     util.raiseNotDefined()
     
   def isGoalState(self, state):
     "Returns whether this search state is a goal state of the problem"
     "*** YOUR CODE HERE ***"
+    visitedCorners = state[1]
+    return visitedCorners[0] and visitedCorners[1] and visitedCorners[2] and visitedCorners[3]
     util.raiseNotDefined()
        
   def getSuccessors(self, state):
@@ -311,6 +325,14 @@ class CornersProblem(search.SearchProblem):
       #   hitsWall = self.walls[nextx][nexty]
       
       "*** YOUR CODE HERE ***"
+      
+      """
+      For the current state, check north, south, east, west
+      If it hits a wall, don't return because that move is invalid
+      If it doesn't hit a wall, make a tuple for the move
+      Add the valid move tuple to the list of states to return
+      Return the list of valid moves
+      """
       
     self._expanded += 1
     return successors
