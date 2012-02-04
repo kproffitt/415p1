@@ -533,6 +533,37 @@ def foodHeuristic(state, problem):
   position, foodGrid = state
   "*** YOUR CODE HERE ***"
   
+
+  DEBUG=False
+
+  if DEBUG: print state
+
+  theFood=state[1].asList() #A list of tuple coordinates where food is
+  nearest=-1 #Start negative so we know if it's been set up yet or not
+  location=state[0] #The (x,y) where we are in the current state
+  """
+  Loop through all the corners, and see what the distance to the nearest
+  unvisited corner is from the current position (location)
+  """
+  for x in range(len(theFood)):
+    """Manhattan distance:  Distance between two points is strictly based on
+    horizontal and vertical moves.  There are no diagonal movements allowed."""
+    #distance = abs(location[0]-theFood[x][0])+abs(location[1]-theFood[x][1])
+    """Euclidean distance:  Distance between two points is measured as if with
+    a ruler.  Diagonal movements are permitted, but this heuristic is not
+    suitable for block-by-block movements where the moves are limited to up and down,
+    left and right."""
+    distance = ((location[0] - theFood[x][0]) ** 2 + (location[1] - theFood[x][1]) ** 2) ** .5
+    if DEBUG: print "Distance to ",theFood[x]," is ",distance
+    if distance < nearest or nearest == -1:
+      nearest=distance/7 # a factor of 7 seems to give the best expanded node count 
+
+  """Ensure non-negative response"""
+  if nearest < 0:
+    nearest=0
+  if DEBUG: print "Nearest is ",nearest," moves"
+  return nearest
+
   return 0
   
 class ClosestDotSearchAgent(SearchAgent):
