@@ -278,7 +278,7 @@ class CornersProblem(search.SearchProblem):
     self._expanded = 0 # Number of search nodes expanded
     
     "*** YOUR CODE HERE ***"
-    self.debug=True
+    self.debug=False
     
   def getStartState(self):
     "Returns the start state (in your state space, not the full Pacman state space)"
@@ -287,7 +287,14 @@ class CornersProblem(search.SearchProblem):
       print "Corners are: ",self.corners
     """visitedCorners keeps track of whether or not we've visited a corner.
     The position in visitedCorners matches the position of self.corners"""
-    visitedCorners = (False,False,False,False)
+    #visitedCorners = (False,False,False,False)
+    """sp and sc to make less typing...this is just to make sure if we start
+    on a corner we account for it as being visited"""
+    sp = self.startingPosition
+    sc = self.corners
+    visitedCorners = ( sp == sc[0] , sp == sc[1] , sp == sc[2] , sp == sc[3] )
+    if self.debug:
+      print "visitedCorners=",visitedCorners
     """Each state will consist of its position in the graph AND 
     the tuple of visited corners"""
     state=self.startingPosition,visitedCorners
@@ -297,10 +304,13 @@ class CornersProblem(search.SearchProblem):
     util.raiseNotDefined()
     
   def isGoalState(self, state):
+    if self.debug:
+      print "Checking goal state...",state
     "Returns whether this search state is a goal state of the problem"
     "*** YOUR CODE HERE ***"
     visitedCorners = state[1]
-    return visitedCorners[0] and visitedCorners[1] and visitedCorners[2] and visitedCorners[3]
+    #return visitedCorners[0] and visitedCorners[1] and visitedCorners[2] and visitedCorners[3]
+    return all(visitedCorners)
     util.raiseNotDefined()
        
   def getSuccessors(self, state):
@@ -314,16 +324,40 @@ class CornersProblem(search.SearchProblem):
      required to get there, and 'stepCost' is the incremental 
      cost of expanding to that successor
     """
+
+    if self.debug:
+      print "Starting to get successors for...",state
     
+    """Pull out current position from state"""
+    currentPosition=state[0]
+
     successors = []
     for action in [Directions.NORTH, Directions.SOUTH, Directions.EAST, Directions.WEST]:
       # Add a successor state to the successor list if the action is legal
       # Here's a code snippet for figuring out whether a new position hits a wall:
-      #   x,y = currentPosition
-      #   dx, dy = Actions.directionToVector(action)
-      #   nextx, nexty = int(x + dx), int(y + dy)
-      #   hitsWall = self.walls[nextx][nexty]
-      
+      x,y = currentPosition
+      dx, dy = Actions.directionToVector(action)
+      nextx, nexty = int(x + dx), int(y + dy)
+      hitsWall = self.walls[nextx][nexty]
+
+      if not hitsWall:
+        nextLocation=(nextx,nexty)
+        
+        """sc, nl, and vc to make less typing...this determines if we would go to a corner or
+        keeps it marked if we already had visited a given corner"""
+        sc = self.corners
+        nl = nextLocation
+        vc = state[1]
+        visitedCorners = ( vc[0] or nl == sc[0] , vc[1] or nl == sc[1] , vc[2] or nl == sc[2] , vc[3] or nl == sc[3] )
+        if self.debug:
+          print "Successor ",nl," visitedCorners=",visitedCorners
+        """Add the new successor to the list of successors by creating a tuple containing
+        the position of the successor, the move to get to it, and the cost of that move.
+        This is per directions at the top of this function."""
+        newPosition=(nextLocation,visitedCorners)
+        newSuccessor=(newPosition,action,1)
+        successors.append(newSuccessor);
+  
       "*** YOUR CODE HERE ***"
       
       """
@@ -335,6 +369,8 @@ class CornersProblem(search.SearchProblem):
       """
       
     self._expanded += 1
+    if self.debug:
+      print "Returning successors...",successors
     return successors
 
   def getCostOfActions(self, actions):
