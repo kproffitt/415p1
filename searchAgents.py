@@ -533,7 +533,6 @@ def foodHeuristic(state, problem):
   position, foodGrid = state
   "*** YOUR CODE HERE ***"
   
-
   DEBUG=False
 
   if DEBUG: print state
