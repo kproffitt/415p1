@@ -563,7 +563,7 @@ def foodHeuristic(state, problem):
   if DEBUG: print "Nearest is ",nearest," moves"
   return nearest
 
-  return 0
+  #return 0 #Trivial solution
   
 class ClosestDotSearchAgent(SearchAgent):
   "Search for all food using a sequence of searches"
@@ -591,6 +591,7 @@ class ClosestDotSearchAgent(SearchAgent):
     problem = AnyFoodSearchProblem(gameState)
 
     "*** YOUR CODE HERE ***"
+    print food
     util.raiseNotDefined()
   
 class AnyFoodSearchProblem(PositionSearchProblem):
