@@ -107,14 +107,15 @@ class SearchAgent(Agent):
     problem = self.searchType(state) # Makes a new search problem
     self.actions  = self.searchFunction(problem) # Find a path
     totalCost = problem.getCostOfActions(self.actions)
-    print('Path found with total cost of %d in %.1f seconds' % (totalCost, time.time() - starttime))
+    print('Path found with total cost of %d in %.2f seconds' % (totalCost, time.time() - starttime))
     if '_expanded' in dir(problem): print('Search nodes expanded: %d' % problem._expanded)
     
   def getAction(self, state):
     """
     Returns the next action in the path chosen earlier (in registerInitialState).  Return
     Directions.STOP if there is no further action to take.
-    
+,corners
+print "The walls are:  ",walls
     state: a GameState object (pacman.py)
     """
     if 'actionIndex' not in dir(self): self.actionIndex = 0
@@ -388,6 +389,8 @@ class CornersProblem(search.SearchProblem):
 
 
 def cornersHeuristic(state, problem):
+  #State is a tuple.  Looks like a position and visitedCorners
+  #Problem is the maze.
   """
   A heuristic for the CornersProblem that you defined.
   
@@ -402,7 +405,41 @@ def cornersHeuristic(state, problem):
   """
   corners = problem.corners # These are the corner coordinates
   walls = problem.walls # These are the walls of the maze, as a Grid (game.py)
+
+  DEBUG=False
+
+  if DEBUG: print state
+
+  nearest=-1 #Start negative so we know if it's been set up yet or not
+  location=state[0] #The (x,y) where we are in the current state
+  visitedCorners=state[1] #The list of visited corners
+  """
+  Loop through all the corners, and see what the distance to the nearest
+  unvisited corner is from the current position (location)
+  """
+  for x in range(4):
+    """Ignore corners we already visited, we only care about where we still need to go."""
+    if not visitedCorners[x]:
+      """Manhattan distance:  Distance between two points is strictly based on
+      horizontal and vertical moves.  There are no diagonal movements allowed."""
+      distance = abs(location[0]-corners[x][0])+abs(location[1]-corners[x][1])
+      """Euclidean distance:  Distance between two points is measured as if with
+      a ruler.  Diagonal movements are permitted, but this heuristic is not
+      suitable for block-by-block movements where the moves are limited to up and down,
+      left and right."""
+      #distance = ((location[0] - corners[x][0]) ** 2 + (location[1] - corners[x][1]) ** 2) ** .5
+      if DEBUG: print "Distance to ",corners[x]," is ",distance
+      if distance < nearest or nearest == -1:
+        nearest=distance/6 # a factor of 6 seems to give the best expanded node count 
+
+  """Ensure non-negative response"""
+  if nearest < 0:
+    nearest=0
+  if DEBUG: print "Nearest is ",nearest," moves"
+  return nearest;
+
   
+
   "*** YOUR CODE HERE ***"
   return 0 # Default to trivial solution
 
@@ -495,6 +532,7 @@ def foodHeuristic(state, problem):
   """
   position, foodGrid = state
   "*** YOUR CODE HERE ***"
+  
   return 0
   
 class ClosestDotSearchAgent(SearchAgent):
