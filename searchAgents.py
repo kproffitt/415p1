@@ -661,13 +661,14 @@ class AnyFoodSearchProblem(PositionSearchProblem):
                 so I would say they have no purpose yet.
     """
     "*** YOUR CODE HERE ***"
-    print "------------IN THE GOAL TEST--------------"
     """No idea if this works yet."""
+    """
     goalState = self.goal
     if state == goalState:
       return True
     else:
       return False
+    """
 
     """
     So, it seems good but self.goal apparently isn't defined.  I think
@@ -676,6 +677,20 @@ class AnyFoodSearchProblem(PositionSearchProblem):
     what the "food" object is and what I can do to figure out if the
     spot at some given coordinate is food or not.
     """
+
+    """
+    from pacman.py line 172 definition for getFood():
+
+    Returns a Grid of boolean food indicator variables.
+
+    Grids can be accessed via list notation, so to check
+    if there is food at (x,y), just call
+
+    currentFood = state.getFood()
+    if currentFood[x][y] == True: ...
+    """
+    currentFood=self.food;
+    return currentFood[x][y] # I think this is why they gave us x,y
 
     util.raiseNotDefined()
 
