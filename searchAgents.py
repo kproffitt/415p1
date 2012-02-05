@@ -591,21 +591,25 @@ class ClosestDotSearchAgent(SearchAgent):
     problem = AnyFoodSearchProblem(gameState)
 
     "*** YOUR CODE HERE ***"
-    print "gameState:\n"
-    print type(gameState),"\n"
-    print gameState,"\n"
-    print "startPosition:\n"
-    print type(startPosition),"\n"
-    print startPosition,"\n"
-    print "food:\n"
-    print type(food),"\n"
-    print food,"\n"
-    print "walls:\n"
-    print type(walls),"\n"
-    print walls,"\n"
-    print "problem:\n"
-    print type(problem),"\n"
-    print problem,"\n"
+
+    DEBUG = False;
+
+    if DEBUG:
+      print "gameState:\n"
+      print type(gameState),"\n"
+      print gameState,"\n"
+      print "startPosition:\n"
+      print type(startPosition),"\n"
+      print startPosition,"\n"
+      print "food:\n"
+      print type(food),"\n"
+      print food,"\n"
+      print "walls:\n"
+      print type(walls),"\n"
+      print walls,"\n"
+      print "problem:\n"
+      print type(problem),"\n"
+      print problem,"\n"
     
     """I think this is the right way to call a search, and it should return
     the path to the goal.  Now we need to try and figure out what the goal
@@ -615,7 +619,10 @@ class ClosestDotSearchAgent(SearchAgent):
     is the most efficient algorythm.  Also not sure if we have everything
     to call aStarSearch so I guess the uniformCostSearch will be a good
     place to start."""
-    return search.uniformCostSearch(problem)
+    #return search.depthFirstSearch(problem)
+    return search.breadthFirstSearch(problem) #this does really good
+    #return search.uniformCostSearch(problem)
+    #return search.aStarSearch(problem)
 
     util.raiseNotDefined()
   
