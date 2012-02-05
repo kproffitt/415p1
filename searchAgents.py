@@ -441,7 +441,7 @@ def cornersHeuristic(state, problem):
   
 
   "*** YOUR CODE HERE ***"
-  return 0 # Default to trivial solution
+  #return 0 # Default to trivial solution
 
 class AStarCornersAgent(SearchAgent):
   "A SearchAgent for FoodSearchProblem using A* and your foodHeuristic"
