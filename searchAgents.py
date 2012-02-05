@@ -591,7 +591,18 @@ class ClosestDotSearchAgent(SearchAgent):
     problem = AnyFoodSearchProblem(gameState)
 
     "*** YOUR CODE HERE ***"
-    print food
+    print gameState,"\n"
+    print startPosition,"\n"
+    print food,"\n"
+    print walls,"\n"
+    print problem,"\n"
+    
+    print type(gameState),"\n"
+    print type(startPosition),"\n"
+    print type(food),"\n"
+    print type(walls),"\n"
+    print type(problem),"\n"
+
     util.raiseNotDefined()
   
 class AnyFoodSearchProblem(PositionSearchProblem):
@@ -618,16 +629,21 @@ class AnyFoodSearchProblem(PositionSearchProblem):
     self.walls = gameState.getWalls()
     self.startState = gameState.getPacmanPosition()
     self.costFn = lambda x: 1
-    self._visited, self._visitedlist, self._expanded = {}, [], 0
+    sel ._visited, self._visitedlist, self._expanded = {}, [], 0
     
   def isGoalState(self, state):
     """
     The state is Pacman's position. Fill this in with a goal test
     that will complete the problem definition.
     """
-    x,y = state
-    
+    x,y = state #What is the purpose of this line?
     "*** YOUR CODE HERE ***"
+    """No idea if this works yet."""
+    goalState = self.goal
+    if state == goalState:
+      return True
+    else:
+      return False
     util.raiseNotDefined()
 
 ##################
