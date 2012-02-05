@@ -629,7 +629,7 @@ class AnyFoodSearchProblem(PositionSearchProblem):
     self.walls = gameState.getWalls()
     self.startState = gameState.getPacmanPosition()
     self.costFn = lambda x: 1
-    sel ._visited, self._visitedlist, self._expanded = {}, [], 0
+    self._visited, self._visitedlist, self._expanded = {}, [], 0
     
   def isGoalState(self, state):
     """
@@ -637,6 +637,15 @@ class AnyFoodSearchProblem(PositionSearchProblem):
     that will complete the problem definition.
     """
     x,y = state #What is the purpose of this line?
+                """
+                I assume that state is a tuple, so that
+                stores the value of state[0] in x and
+                state[1] in y but I can only guess that
+                x and y might be coordinates because I
+                don't know what the state contains.
+                It doesn't look like they're ever used
+                so I would say they have no purpose yet.
+                """
     "*** YOUR CODE HERE ***"
     """No idea if this works yet."""
     goalState = self.goal
